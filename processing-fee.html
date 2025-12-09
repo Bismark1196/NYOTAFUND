@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nyota Fund — Processing Fee</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="navbar container">
+    <div class="brand">
+      <div class="logo-wrapper"><img src="assets/images/nyotalogo.png"></div>
+      <div>
+        <div class="brand-text">Nyota Fund</div>
+        <div class="brand-sub">Processing Fee</div>
+      </div>
+    </div>
+    <nav class="links">
+      <a href="loan-approval-check.html">Approval Check</a>
+      <a href="loan-amount.html">Qualification</a>
+      <a class="active" href="processing-fee.html">Processing Fee</a>
+      <a href="processing-details.html">Processing Details</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="container section card">
+    <h2 style="margin:0">Processing Fee Payment</h2>
+
+    <form id="feeForm" style="margin-top:16px">
+      <label>Your Approved Loan Amount (KES)</label>
+      <input name="amount" class="input" type="number" required min="1000">
+
+      <button class="btn-cta" style="margin-top:12px">Show Processing Fee</button>
+
+      <div id="feeOutput" class="small" style="margin-top:16px"></div>
+
+      <!-- Hidden until fee is shown -->
+      <div id="mpesaSection" style="display:none; margin-top:20px;">
+        <label>Paste Your M-Pesa Confirmation Message</label>
+        <textarea id="mpesaMessage" class="input" rows="4" placeholder="e.g. QJD45H78 Confirmed. Ksh 300.00 paid to ..."></textarea>
+
+        <button id="nextBtn" class="btn-cta" style="margin-top:12px;" disabled>Next</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="container small">© Nyota Fund <span id="year-fee"></span></div>
+</footer>
+
+<script>
+document.getElementById("year-fee").textContent = new Date().getFullYear();
+
+const PROCESSING_RATE = 0.03; 
+const TILL_NUMBER = "456789";
+
+document.getElementById("feeForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const amount = Number(new FormData(e.target).get("amount"));
+  const fee = amount * PROCESSING_RATE;
+
+  const output = document.getElementById("feeOutput");
+  output.style.color = "green";
+  output.innerHTML = `
+    <strong>Loan Amount:</strong> KES ${amount.toLocaleString()}<br>
+    <strong>Processing Fee (3%):</strong> KES ${fee.toLocaleString()}<br><br>
+    <strong>Pay the Processing Fee To:</strong><br>
+    <span style="font-size:20px; font-weight:bold; color:#0A84FF;">
+      TILL NUMBER: ${TILL_NUMBER}
+    </span><br><br>
+    After payment, paste your M-Pesa confirmation message below and click "Next".
+  `;
+
+  // Show the M-Pesa verification input
+  document.getElementById("mpesaSection").style.display = "block";
+});
+
+// Enable Next button only when message is entered
+document.getElementById("mpesaMessage").addEventListener("input", () => {
+  const msg = document.getElementById("mpesaMessage").value.trim();
+  document.getElementById("nextBtn").disabled = msg.length < 10;
+});
+
+// Next button action
+document.getElementById("nextBtn").addEventListener("click", e => {
+  e.preventDefault();
+  window.location.href = "processing-details.html";
+});
+</script>
+
+</body>
+</html>

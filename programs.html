@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nyota Fund — Programs</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="navbar container">
+      <div class="brand">
+        <div class="logo-wrapper"><img src="assets/images/nyotalogo.png" alt="Nyota logo"></div>
+        <div>
+          <div class="brand-text">Nyota Fund</div>
+          <div class="brand-sub">Programs</div>
+        </div>
+      </div>
+
+      <nav class="links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="programs.html" class="active">Programs</a>
+        <a href="apply.html">Apply Now</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="row">
+        <button class="btn-ghost" onclick="location.href='contact.html#donate'">Donate</button>
+        <button class="menu-btn">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-panel">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="apply.html">Apply Now</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+
+  <main>
+    <section class="section container">
+      <div class="section-title"><h2 style="margin:0">Programs</h2><a class="small" href="apply.html">Apply Now</a></div>
+
+      <article class="card" style="margin-bottom:12px">
+        <h3>Scholarships</h3>
+        <p class="small">Need and merit-based scholarships to help students complete studies. Priority for underserved communities and strong leadership potential. Scholarships cover tuition, school supplies and mentoring.</p>
+        <div style="margin-top:8px"><a href="apply.html" class="small">Apply for scholarship →</a></div>
+      </article>
+
+      <article class="card" style="margin-bottom:12px">
+        <h3>Microgrants</h3>
+        <p class="small">Small, one-time grants (with training) to help youth start or scale businesses. Grants come with business coaching and market linkages.</p>
+        <div style="margin-top:8px"><a href="apply.html" class="small">Nominate a business →</a></div>
+      </article>
+
+      <article class="card" style="margin-bottom:12px">
+        <h3>Mentorship & Training</h3>
+        <p class="small">Workshops, business clinics and mentorship pairing to give entrepreneurs practical skills and networks.</p>
+        <div style="margin-top:8px"><a href="apply.html" class="small">Volunteer as mentor →</a></div>
+      </article>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div><strong>Nyota Fund</strong><div class="small">Programs to grow impact.</div></div>
+        <div class="small">© Nyota Fund <span id="year-programs"></span></div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="assets/js/script.js"></script>
+  <script>document.getElementById('year-programs').textContent = new Date().getFullYear();</script>
+</body>
+</html>

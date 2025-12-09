@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nyota Fund — Contact</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="navbar container">
+      <div class="brand">
+        <div class="logo-wrapper"><img src="assets/images/nyotalogo.png" alt="Nyota logo"></div>
+        <div>
+          <div class="brand-text">Nyota Fund</div>
+          <div class="brand-sub">Contact</div>
+        </div>
+      </div>
+
+      <nav class="links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="programs.html">Programs</a>
+        <a href="apply.html">Apply Now</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+
+      <div class="row">
+        <button class="btn-ghost" onclick="location.href='#donate'">Donate</button>
+        <button class="menu-btn">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-panel">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="apply.html">Apply Now</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+
+  <main>
+    <section class="section container card" id="contact">
+      <div class="section-title"><h2 style="margin:0">Contact Us</h2><a class="small" href="#donate">Donate</a></div>
+
+      <div style="display:grid; grid-template-columns:1fr 340px; gap:16px">
+        <form id="contactForm" novalidate>
+          <label>Name</label>
+          <input name="name" class="input" required>
+          <label>Email</label>
+          <input name="email" class="input" type="email" required>
+          <label>Message</label>
+          <textarea name="message" class="input" required></textarea>
+          <div style="margin-top:12px; display:flex; gap:8px">
+            <button class="btn-cta" type="submit">Send Message</button>
+            <button class="btn-ghost" type="reset">Reset</button>
+          </div>
+          <div id="contactFeedback" class="small" style="margin-top:8px"></div>
+        </form>
+
+        <aside class="card">
+          <h3 style="margin-top:0">Get in touch</h3>
+          <p class="small">Email: hello@nyotafund.org<br>Phone: +254 700 000 000<br>Address: 123 Community Lane, Nairobi</p>
+
+          <h4 id="donate" style="margin-top:12px">Donate</h4>
+          <p class="small">Bank: Example Bank • Account: 1234567890 • Branch: Nairobi</p>
+
+          <h4 style="margin-top:12px">Subscribe</h4>
+          <form id="subscribeForm">
+            <input name="subEmail" id="subEmail" class="input" type="email" placeholder="you@email.com">
+            <div style="margin-top:8px">
+              <button class="btn-cta" type="submit">Subscribe</button>
+            </div>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div><strong>Nyota Fund</strong><div class="small">Transparency • Community leadership</div></div>
+        <div class="small">© Nyota Fund <span id="year-contact"></span></div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="assets/js/script.js"></script>
+  <script>
+    document.getElementById('year-contact').textContent = new Date().getFullYear();
+
+    // contact & subscribe demo
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const nm = this.name.value.trim(), email = this.email.value.trim(), msg = this.message.value.trim();
+      const fb = document.getElementById('contactFeedback');
+      if(!nm||!email||!msg){ fb.style.color='crimson'; fb.textContent='Please complete all fields'; return; }
+      const arr = JSON.parse(localStorage.getItem('nyota_messages')||'[]');
+      arr.unshift({name:nm,email, message:msg, createdAt:new Date().toISOString()});
+      localStorage.setItem('nyota_messages', JSON.stringify(arr));
+      fb.style.color='green'; fb.textContent='Message sent (demo). Thank you!';
+      this.reset(); setTimeout(()=> fb.textContent='',2400);
+    });
+
+    document.getElementById('subscribeForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = this.subEmail.value.trim();
+      if(!email){ alert('Enter email'); return; }
+      const subs = JSON.parse(localStorage.getItem('nyota_subs')||'[]');
+      if(subs.includes(email)){ alert('Already subscribed (demo)'); return; }
+      subs.push(email); localStorage.setItem('nyota_subs', JSON.stringify(subs));
+      alert('Subscribed (demo). Thank you!');
+      this.reset();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nyota Fund — Loan Approval Check</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<!-- PROCESSING POPUP -->
+<div id="processingPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-card">
+    <div class="loader"></div>
+    <p>Processing your loan qualification amount...</p>
+  </div>
+</div>
+
+<body>
+
+<header class="header">
+  <div class="navbar container">
+    <div class="brand">
+      <div class="logo-wrapper"><img src="assets/images/nyotalogo.png"></div>
+      <div>
+        <div class="brand-text">Nyota Fund</div>
+        <div class="brand-sub">Loan Check</div>
+      </div>
+    </div>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="loan-amount.html">Qualification</a>
+      <a class="active" href="loan-approval-check.html">Approval Check</a>
+      <a href="processing-fee.html">Processing Fee</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section container card">
+    <h2 style="margin:0">Loan Approval Eligibility</h2>
+
+    <form id="loanCheckForm" style="margin-top:16px">
+      <!-- EMPLOYMENT DETAILS -->
+      <h3 class="form-title" style="margin-top:20px">Employment Information</h3>
+
+      <label>Employment Status</label>
+      <select name="employment" class="select" required>
+        <option value="">-- Select Status --</option>
+        <option value="employed">Employed</option>
+        <option value="self">Self-employed</option>
+        <option value="unemployed">Unemployed</option>
+      </select>
+
+      <label>Monthly Income (KES)</label>
+      <input name="income" class="input" type="number" min="0" required>
+
+      <label>Monthly Expenses (KES)</label>
+      <input name="expenses" class="input" type="number" min="0" required>
+
+      <label>Duration of Employment</label>
+      <select name="duration" class="select" required>
+        <option value="">-- Select Duration --</option>
+        <option value="less6">Less than 6 months</option>
+        <option value="6to12">6–12 months</option>
+        <option value="1to2">1–2 years</option>
+        <option value="2plus">More than 2 years</option>
+      </select>
+
+      <!-- LOAN DETAILS -->
+      <h3 class="form-title" style="margin-top:20px">Loan Information</h3>
+
+      <label>Loan Purpose</label>
+      <select name="purpose" class="select" required>
+        <option value="">-- Select Purpose --</option>
+        <option value="business">Business</option>
+        <option value="school">School Fees</option>
+        <option value="medical">Medical</option>
+        <option value="personal">Personal Use</option>
+      </select>
+
+      <label>Requested Loan Amount (KES)</label>
+      <input name="loanAmount" class="input" type="number" min="500" required>
+
+      <!-- NEXT OF KIN -->
+      <h3 class="form-title" style="margin-top:20px">Next of Kin (Optional)</h3>
+
+      <label>Next of Kin Name</label>
+      <input name="kinName" class="input">
+
+      <label>Next of Kin Phone</label>
+      <input name="kinPhone" class="input">
+
+      <button class="btn-cta" style="margin-top:18px" type="submit">Check Eligibility</button>
+
+      <div id="loanCheckFeedback" class="small" style="margin-top:12px"></div>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="container small">© Nyota Fund <span id="year-loan"></span></div>
+</footer>
+
+<script>
+  document.getElementById("year-loan").textContent = new Date().getFullYear();
+
+  document.getElementById("loanCheckForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const popup = document.getElementById("processingPopup");
+    popup.style.display = "flex";
+
+    // Disable scrolling when popup is open
+    document.body.style.overflow = "hidden";
+
+    const form = new FormData(this);
+    const income = Number(form.get("income"));
+    const expenses = Number(form.get("expenses"));
+    const net = income - expenses;
+
+    // Simulate processing time
+    setTimeout(() => {
+      popup.style.display = "none";
+      document.body.style.overflow = "auto";
+
+      // Redirect to loan-amount.html
+      window.location.href = "loan-amount.html";
+    }, 3000); // 3 seconds
+  });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nyota Fund — Apply</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* small tweaks for preview image */
+    #idPreview { width:140px; height:100px; object-fit:cover; border-radius:8px; display:none; border:1px solid rgba(12,24,12,0.06); margin-top:8px;}
+    .apply-grid{display:grid; grid-template-columns:1fr 340px; gap:16px}
+    @media (max-width:980px){ .apply-grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<!-- Confirmation Popup -->
+<div id="confirmPopup" class="popup-overlay">
+  <div class="popup-card">
+    <h3>Confirm Your Details</h3>
+
+    <div id="popupContent" class="popup-details"></div>
+
+    <div class="popup-actions">
+      <button id="confirmBtn" class="btn-cta">Confirm & Continue</button>
+      <button id="cancelBtn" class="btn-ghost">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Popup styling */
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  .popup-card {
+    background: #fff;
+    padding: 20px;
+    width: 90%;
+    max-width: 420px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    animation: fadeIn .25s ease;
+  }
+  .popup-details { font-size: 14px; margin: 10px 0; }
+  .popup-details p { margin: 6px 0; }
+  .popup-actions { display:flex; gap:10px; margin-top:15px; }
+  @keyframes fadeIn { from{opacity:0; transform:scale(.9);} to{opacity:1; transform:scale(1);} }
+</style>
+
+<body>
+  <header class="header">
+    <div class="navbar container">
+      <div class="brand">
+        <div class="logo-wrapper"><img src="assets/images/nyotalogo.png" alt="Nyota logo"></div>
+        <div>
+          <div class="brand-text">Nyota Fund</div>
+          <div class="brand-sub">Application</div>
+        </div>
+      </div>
+
+      <nav class="links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="programs.html">Programs</a>
+        <a href="apply.html" class="active">Apply Now</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="row">
+        <button class="btn-ghost" onclick="location.href='contact.html#donate'">Donate</button>
+        <button class="menu-btn">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-panel">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="apply.html">Apply Now</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+
+  <main>
+    <section class="section container card">
+      <div class="section-title"><h2 style="margin:0">Application Form</h2><a class="small" href="programs.html">Program details</a></div>
+
+      <div class="apply-grid">
+        <form id="applyForm" novalidate>
+          <label>Full name</label>
+          <input name="fullname" class="input" required>
+
+          <label>Email</label>
+          <input name="email" class="input" type="email" required>
+
+          <label>Phone</label>
+          <input name="phone" class="input" type="tel" required>
+
+          <label>Date of birth</label>
+          <input name="dob" class="input" type="date">
+
+          <label>Gender</label>
+          <select name="gender" class="select">
+            <option value="">-- Select --</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Other / Prefer not to say</option>
+          </select>
+
+          <label>County</label>
+          <input name="county" class="input">
+
+          <label>Highest education</label>
+          <select name="education" class="select">
+            <option value="">-- Select --</option>
+            <option>Secondary</option>
+            <option>Tertiary</option>
+            <option>University</option>
+            <option>Other</option>
+          </select>
+
+          <label>Program applying for</label>
+          <select name="program" class="select" required>
+            <option value="">-- Choose --</option>
+            <option value="scholarship">Scholarship</option>
+            <option value="microgrant">Microgrant</option>
+            <option value="mentorship">Mentorship</option>
+          </select>
+
+          <label>Personal statement (min 50 chars)</label>
+          <textarea name="statement" class="input" required></textarea>
+
+          <label>Parent / Guardian (optional)</label>
+          <input name="guardianName" class="input" placeholder="Name">
+
+          <label>Upload ID (image, max 5MB)</label>
+          <input id="idUpload" name="idUpload" type="file" accept="image/*" class="input">
+          <img id="idPreview" alt="ID preview">
+
+          <div style="margin-top:12px; display:flex; gap:10px;">
+             <button type="submit" class="btn-cta">Submit Application</button>
+             <button type="reset" class="btn-ghost">Reset</button>
+          </div>
+
+          <div id="applyFeedback" class="small" style="margin-top:10px"></div>
+        </form>
+
+        <aside class="card">
+          <h3 style="margin-top:0">Before you apply</h3>
+          <ul class="small">
+            <li>Ensure your personal statement explains need, impact and plan.</li>
+            <li>Provide truthful information; false details will void applications.</li>
+            <li>Applications are initially stored in-browser (demo). To collect centrally, integrate a backend (we can add an example).</li>
+          </ul>
+
+          <h4 style="margin-top:12px">Help</h4>
+          <p class="small">Email: hello@nyotafund.org<br>Phone: +254 700 000 000</p>
+
+          <h4 style="margin-top:12px">Saved apps (demo)</h4>
+          <p class="small">Open console and run: <code>JSON.parse(localStorage.getItem('nyota_applications'))</code></p>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div><strong>Nyota Fund</strong><div class="small">Apply to our programs.</div></div>
+        <div class="small">© Nyota Fund <span id="year-apply"></span></div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="assets/js/script.js"></script>
+  <script>
+    // Popup elements
+const popup = document.getElementById("confirmPopup");
+const popupContent = document.getElementById("popupContent");
+const confirmBtn = document.getElementById("confirmBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
+cancelBtn.onclick = () => popup.style.display = "none";
+
+// After saving the application → show popup
+function showConfirmationPopup(data) {
+  popupContent.innerHTML = `
+    <p><strong>Name:</strong> ${data.fullname}</p>
+    <p><strong>Email:</strong> ${data.email}</p>
+    <p><strong>Phone:</strong> ${data.phone}</p>
+    <p><strong>DOB:</strong> ${data.dob || "N/A"}</p>
+    <p><strong>County:</strong> ${data.county || "N/A"}</p>
+    <p><strong>Program:</strong> ${data.program}</p>
+    <p><strong>Statement:</strong> ${data.statement}</p>
+    ${data.idFile ? `<p><strong>ID Preview:</strong><br><img src="${data.idFile.data}" width="180" style="border-radius:6px;margin-top:5px;">` : ""}
+  `;
+
+  popup.style.display = "flex";
+
+  confirmBtn.onclick = () => {
+    popup.style.display = "none";
+    window.location.href = "loan-approval-check.html";
+  };
+}
+
+    // application logic (basic client-side demo)
+    document.addEventListener('DOMContentLoaded', ()=> {
+      document.getElementById('year-apply').textContent = new Date().getFullYear();
+
+      const form = document.getElementById('applyForm');
+      const feedback = document.getElementById('applyFeedback');
+      const fileInput = document.getElementById('idUpload');
+      const preview = document.getElementById('idPreview');
+
+      fileInput.addEventListener('change', (e)=>{
+        const f = e.target.files[0];
+        if(!f) { preview.style.display='none'; return; }
+        if(!f.type.startsWith('image/')) { preview.style.display='none'; return; }
+        const r = new FileReader();
+        r.onload = ev => { preview.src = ev.target.result; preview.style.display='block'; }
+        r.readAsDataURL(f);
+      });
+
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        feedback.style.color='crimson';
+        const data = Object.fromEntries(new FormData(form).entries());
+        if(!data.fullname || !data.email || !data.phone){ feedback.textContent='Please complete name, email, phone'; return; }
+        if(!data.program){ feedback.textContent='Please choose a program'; return; }
+        if(!data.statement || data.statement.length < 50){ feedback.textContent='Personal statement must be at least 50 characters'; return; }
+
+        // handle file conversion to base64 (optional demo)
+        const f = fileInput.files[0];
+        if(f){
+          if(f.size > 5*1024*1024){ feedback.textContent='ID file too large (max 5MB)'; return; }
+          const reader = new FileReader();
+          reader.onload = function(ev){
+            data.idFile = { name: f.name, type: f.type, data: ev.target.result };
+            saveApp(data);
+          }
+          reader.readAsDataURL(f);
+        } else {
+          data.idFile = null;
+          saveApp(data);
+        }
+
+        function saveApp(obj){
+          const arr = JSON.parse(localStorage.getItem('nyota_applications')||'[]');
+          arr.unshift({...obj, submittedAt: new Date().toISOString()});
+          localStorage.setItem('nyota_applications', JSON.stringify(arr));
+          feedback.style.color='green';
+          feedback.textContent='Application saved (demo).';
+          showConfirmationPopup(obj);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

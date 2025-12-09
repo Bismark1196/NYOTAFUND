@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nyota Fund — Verification Pending</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f6ff;
+    }
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .logo {
+      width: 85px;
+      margin-bottom: 15px;
+    }
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0A84FF;
+      margin-bottom: 10px;
+    }
+    .msg {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 25px;
+    }
+    .loader {
+      border: 4px solid #d3d3d3;
+      border-top: 4px solid #0A84FF;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      margin: 20px auto;
+      animation: spin 1.3s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 13px;
+      color: #555;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <img src="assets/images/nyotalogo.png" class="logo">
+
+  <div class="title">Verification in Progress</div>
+
+  <div class="msg">
+    Thank you for submitting your M-Pesa confirmation message.  
+    Our team is currently verifying your processing fee payment.
+    <br><br>
+    <strong>This may take up to 48 hours.</strong>
+  </div>
+
+  <div class="loader"></div>
+
+  <div class="msg">
+    You will receive an SMS and email once your payment is confirmed and your loan is released.
+  </div>
+</div>
+
+<div class="footer">© Nyota Fund <span id="year"></span></div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

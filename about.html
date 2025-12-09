@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nyota Fund — About</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="navbar container">
+      <div class="brand">
+        <div class="logo-wrapper"><img src="assets/images/nyotalogo.png" alt="Nyota logo"></div>
+        <div>
+          <div class="brand-text">Nyota Fund</div>
+          <div class="brand-sub">National Youth Opportunities Towards Advancement</div>
+        </div>
+      </div>
+
+      <nav class="links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="programs.html">Programs</a>
+        <a href="apply.html">Apply Now</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="row">
+        <button class="btn-ghost" onclick="location.href='contact.html#donate'">Donate</button>
+        <button class="menu-btn">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-panel">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="apply.html">Apply Now</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+
+  <main>
+    <section class="section container card">
+      <div class="section-title"><h2 style="margin:0">About Nyota Fund</h2><a class="small" href="contact.html">Partner with us</a></div>
+      <p class="small">Nyota Fund supports youth and community initiatives by providing scholarships, microgrants and mentorship. Our selection processes are community-driven and our work focuses on measurable outcomes, sustainability and capacity building.</p>
+
+      <h3 style="margin-top:18px">Mission</h3>
+      <p class="small">To expand opportunities for Kenyan youth by funding education, enterprise and leadership development that create long-term value.</p>
+
+      <h3 style="margin-top:14px">Approach</h3>
+      <ul class="small">
+        <li>Community-led selection and local partnerships</li>
+        <li>Transparent budgeting, auditing and public reporting</li>
+        <li>Post-award monitoring, technical support and mentorship</li>
+      </ul>
+
+      <h3 style="margin-top:14px">Leadership</h3>
+      <div class="grid-2" style="margin-top:10px">
+        <div class="card">
+          <strong>Amina Karanja</strong>
+          <div class="small">Founder & Executive Director</div>
+          <p class="small">Background in community development and youth entrepreneurship.</p>
+        </div>
+        <div class="card">
+          <strong>James Mwangi</strong>
+          <div class="small">Programs Lead</div>
+          <p class="small">Experience in grant management and M&E.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div><strong>Nyota Fund</strong><div class="small">Committed to youth-led impact.</div></div>
+        <div class="small">© Nyota Fund <span id="year-about"></span></div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="assets/js/script.js"></script>
+  <script>document.getElementById('year-about').textContent = new Date().getFullYear();</script>
+</body>
+</html>

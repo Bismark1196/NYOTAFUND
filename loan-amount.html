@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta-name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nyota Fund — Loan Amount</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    .amount-card {
+      background: #ffffff;
+      padding: 22px;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+      max-width: 500px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .big-amount {
+      font-size: 34px;
+      font-weight: 800;
+      margin: 12px 0;
+      color: #0057ff;
+    }
+
+    .fee-box {
+      margin-top: 18px;
+      background: #f4f7ff;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    .btn-next {
+      margin-top: 20px;
+      padding: 12px 20px;
+      width: 100%;
+      background: #0057ff;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 16px;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="navbar container">
+    <div class="brand">
+      <div class="logo-wrapper"><img src="assets/images/nyotalogo.png"></div>
+      <div><div class="brand-text">Nyota Fund</div><div class="brand-sub">Loan Result</div></div>
+    </div>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a class="active" href="loan-amount.html">Loan Amount</a>
+      <a href="processing-fee.html">Processing Fee</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section container">
+
+    <h2>Your Approved Loan Amount</h2>
+
+    <div class="amount-card">
+      <p class="small">Based on your financial assessment</p>
+
+      <div id="loanAmountDisplay" class="big-amount">KES 0</div>
+
+      <div class="fee-box">
+        <strong>Processing Fee:</strong>
+        <div id="processingFeeDisplay">KES 0</div>
+      </div>
+
+      <button class="btn-next" onclick="location.href='processing-fee.html'">
+        Continue to Processing Fee
+      </button>
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  <div class="container small">© Nyota Fund <span id="year-loan"></span></div>
+</footer>
+
+<script>
+  document.getElementById("year-loan").textContent = new Date().getFullYear();
+
+  // ⬇️ READ DATA FROM LOCALSTORAGE (saved in previous page)
+  const saved = JSON.parse(localStorage.getItem("loanData")) || {};
+
+  let netIncome = saved.netIncome || 0;
+
+  // Loan calculation formula (editable)
+  let loanLimit = netIncome * 4;      // 4× disposable income  
+  if(loanLimit < 3000) loanLimit = 3000;
+  if(loanLimit > 500000) loanLimit = 500000;
+
+  // Processing fee (fixed 8%)
+  let processingFee = Math.round(loanLimit * 0.08);
+
+  // Display values
+  document.getElementById("loanAmountDisplay").textContent = "KES " + loanLimit.toLocaleString();
+  document.getElementById("processingFeeDisplay").textContent = "KES " + processingFee.toLocaleString();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f7f7f7;
+  color: #222;
+}
+
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+nav .logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+nav img.logo {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+}
+
+/* NAV LINKS (desktop) */
+nav ul {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+}
+
+nav a {
+  text-decoration: none;
+  color: #2E7D32;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* MOBILE MENU BUTTON */
+.menu-btn {
+  font-size: 30px;
+  display: none;
+  cursor: pointer;
+  color: #2E7D32;
+}
+
+/* MOBILE MENU */
+nav ul.mobile {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  background: white;
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+}
+
+nav ul.mobile.show {
+  display: flex;
+}
+
+nav ul.mobile li {
+  padding: 10px 25px;
+}
+
+/* HERO SECTION */
+.hero {
+  padding: 80px 20px;
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.5)
+    ),
+    url('hero.jpg') center/cover no-repeat;
+  color: white;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 42px;
+  font-weight: 800;
+}
+
+.hero p {
+  font-size: 18px;
+  margin: 15px 0 30px;
+}
+
+.btn {
+  background: #2E7D32;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* MAIN SECTIONS */
+.section {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.section h2 {
+  text-align: center;
+  color: #2E7D32;
+  margin-bottom: 20px;
+}
+
+/* CARDS */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* FORMS */
+form {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0 20px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  font-size: 16px;
+}
+
+/* FOOTER */
+footer {
+  background: #2E7D32;
+  color: white;
+  text-align: center;
+  padding: 18px;
+  margin-top: 30px;
+}
+
+/* ───────────────────────────── */
+/* 📱 FULL PHONE RESPONSIVENESS  */
+/* ───────────────────────────── */
+
+@media(max-width: 850px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width: 600px) {
+
+  /* NAV */
+  nav ul {
+    display: none;
+  }
+  .menu-btn {
+    display: block;
+  }
+  nav img.logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 60px 20px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+
+  /* CARDS */
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  /* Section titles */
+  .section h2 {
+    font-size: 22px;
+  }
+}
+
