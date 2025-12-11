@@ -187,3 +187,24 @@ a:focus, button:focus, input:focus, textarea:focus{outline:3px solid rgba(46,125
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+#errorPopup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+#errorPopup .popup-card {
+  background: white;
+  padding: 18px;
+  border-radius: 10px;
+  width: 85%;
+  max-width: 350px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  animation: fadeIn .25s ease;
+}
+
+

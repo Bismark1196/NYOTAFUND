@@ -138,22 +138,13 @@
           <label>Personal statement (min 50 chars)</label>
           <textarea name="statement" class="input" required></textarea>
 
-          <label>Parent / Guardian (optional)</label>
-          <input name="guardianName" class="input" placeholder="Name">
-
-          <label>Upload ID (image, max 5MB)</label>
-          <input id="idUpload" name="idUpload" type="file" accept="image/*" class="input">
-          <img id="idPreview" alt="ID preview">
-
           <div style="margin-top:12px; display:flex; gap:10px;">
              <button type="submit" class="btn-cta">Submit Application</button>
              <button type="reset" class="btn-ghost">Reset</button>
           </div>
 
           <div id="applyFeedback" class="small" style="margin-top:10px"></div>
-        </form>
 
-        <aside class="card">
           <h3 style="margin-top:0">Before you apply</h3>
           <ul class="small">
             <li>Ensure your personal statement explains need, impact and plan.</li>
@@ -163,10 +154,7 @@
 
           <h4 style="margin-top:12px">Help</h4>
           <p class="small">Email: hello@nyotafund.org<br>Phone: +254 700 000 000</p>
-
-          <h4 style="margin-top:12px">Saved apps (demo)</h4>
-          <p class="small">Open console and run: <code>JSON.parse(localStorage.getItem('nyota_applications'))</code></p>
-        </aside>
+        </form>
       </div>
     </section>
 
@@ -179,87 +167,73 @@
   </main>
 
   <script src="assets/js/script.js"></script>
-  <script>
-    // Popup elements
-const popup = document.getElementById("confirmPopup");
-const popupContent = document.getElementById("popupContent");
-const confirmBtn = document.getElementById("confirmBtn");
-const cancelBtn = document.getElementById("cancelBtn");
+  <script src="assets/js/script.js"></script>
+<script>
+  // Popup elements
+  const popup = document.getElementById("confirmPopup");
+  const popupContent = document.getElementById("popupContent");
+  const confirmBtn = document.getElementById("confirmBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
 
-cancelBtn.onclick = () => popup.style.display = "none";
+  cancelBtn.onclick = () => popup.style.display = "none";
 
-// After saving the application → show popup
-function showConfirmationPopup(data) {
-  popupContent.innerHTML = `
-    <p><strong>Name:</strong> ${data.fullname}</p>
-    <p><strong>Email:</strong> ${data.email}</p>
-    <p><strong>Phone:</strong> ${data.phone}</p>
-    <p><strong>DOB:</strong> ${data.dob || "N/A"}</p>
-    <p><strong>County:</strong> ${data.county || "N/A"}</p>
-    <p><strong>Program:</strong> ${data.program}</p>
-    <p><strong>Statement:</strong> ${data.statement}</p>
-    ${data.idFile ? `<p><strong>ID Preview:</strong><br><img src="${data.idFile.data}" width="180" style="border-radius:6px;margin-top:5px;">` : ""}
-  `;
+  // After saving the application → show popup
+  function showConfirmationPopup(data) {
+    popupContent.innerHTML = `
+      <p><strong>Name:</strong> ${data.fullname}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Phone:</strong> ${data.phone}</p>
+      <p><strong>DOB:</strong> ${data.dob || "N/A"}</p>
+      <p><strong>County:</strong> ${data.county || "N/A"}</p>
+      <p><strong>Program:</strong> ${data.program}</p>
+      <p><strong>Statement:</strong> ${data.statement}</p>
+    `;
 
-  popup.style.display = "flex";
+    popup.style.display = "flex";
 
-  confirmBtn.onclick = () => {
-    popup.style.display = "none";
-    window.location.href = "loan-approval-check.html";
-  };
-}
+    confirmBtn.onclick = () => {
+      popup.style.display = "none";
+      window.location.href = "loan-approval-check.html";
+    };
+  }
 
-    // application logic (basic client-side demo)
-    document.addEventListener('DOMContentLoaded', ()=> {
-      document.getElementById('year-apply').textContent = new Date().getFullYear();
+  // Application logic (clean version without file upload)
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('year-apply').textContent = new Date().getFullYear();
 
-      const form = document.getElementById('applyForm');
-      const feedback = document.getElementById('applyFeedback');
-      const fileInput = document.getElementById('idUpload');
-      const preview = document.getElementById('idPreview');
+    const form = document.getElementById('applyForm');
+    const feedback = document.getElementById('applyFeedback');
 
-      fileInput.addEventListener('change', (e)=>{
-        const f = e.target.files[0];
-        if(!f) { preview.style.display='none'; return; }
-        if(!f.type.startsWith('image/')) { preview.style.display='none'; return; }
-        const r = new FileReader();
-        r.onload = ev => { preview.src = ev.target.result; preview.style.display='block'; }
-        r.readAsDataURL(f);
-      });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      feedback.style.color = 'crimson';
 
-      form.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        feedback.style.color='crimson';
-        const data = Object.fromEntries(new FormData(form).entries());
-        if(!data.fullname || !data.email || !data.phone){ feedback.textContent='Please complete name, email, phone'; return; }
-        if(!data.program){ feedback.textContent='Please choose a program'; return; }
-        if(!data.statement || data.statement.length < 50){ feedback.textContent='Personal statement must be at least 50 characters'; return; }
+      const data = Object.fromEntries(new FormData(form).entries());
 
-        // handle file conversion to base64 (optional demo)
-        const f = fileInput.files[0];
-        if(f){
-          if(f.size > 5*1024*1024){ feedback.textContent='ID file too large (max 5MB)'; return; }
-          const reader = new FileReader();
-          reader.onload = function(ev){
-            data.idFile = { name: f.name, type: f.type, data: ev.target.result };
-            saveApp(data);
-          }
-          reader.readAsDataURL(f);
-        } else {
-          data.idFile = null;
-          saveApp(data);
-        }
+      if (!data.fullname || !data.email || !data.phone) {
+        feedback.textContent = 'Please complete name, email, and phone';
+        return;
+      }
+      if (!data.program) {
+        feedback.textContent = 'Please choose a program';
+        return;
+      }
+      if (!data.statement || data.statement.length < 50) {
+        feedback.textContent = 'Personal statement must be at least 50 characters';
+        return;
+      }
 
-        function saveApp(obj){
-          const arr = JSON.parse(localStorage.getItem('nyota_applications')||'[]');
-          arr.unshift({...obj, submittedAt: new Date().toISOString()});
-          localStorage.setItem('nyota_applications', JSON.stringify(arr));
-          feedback.style.color='green';
-          feedback.textContent='Application saved (demo).';
-          showConfirmationPopup(obj);
-        }
-      });
+      // Save application
+      const arr = JSON.parse(localStorage.getItem('nyota_applications') || '[]');
+      arr.unshift({ ...data, submittedAt: new Date().toISOString() });
+      localStorage.setItem('nyota_applications', JSON.stringify(arr));
+
+      feedback.style.color = 'green';
+      feedback.textContent = 'Application saved (demo).';
+
+      showConfirmationPopup(data);
     });
-  </script>
+  });
+</script>
 </body>
 </html>

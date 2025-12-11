@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta-name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nyota Fund — Loan Amount</title>
   <link rel="stylesheet" href="assets/css/style.css">
 
@@ -16,31 +16,55 @@
       margin: auto;
       text-align: center;
     }
-
     .big-amount {
       font-size: 34px;
       font-weight: 800;
       margin: 12px 0;
-      color: #0057ff;
+      color: #00a03d;
     }
-
-    .fee-box {
+    .details-box {
       margin-top: 18px;
       background: #f4f7ff;
       padding: 14px;
       border-radius: 10px;
       font-size: 15px;
+      text-align:left;
     }
-
+    .details-box div {
+      margin-bottom: 8px;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #018925;
+    }
     .btn-next {
       margin-top: 20px;
       padding: 12px 20px;
       width: 100%;
-      background: #0057ff;
+      background:#245f26;
       color: #fff;
       border-radius: 8px;
       font-size: 16px;
       border: none;
+    }
+    .about-card {
+      max-width: 500px;
+      margin: 35px auto;
+      background: #ffffff;
+      padding: 22px;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    }
+    .about-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #0057ff;
+    }
+    .about-card p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #333;
     }
   </style>
 </head>
@@ -51,12 +75,13 @@
   <div class="navbar container">
     <div class="brand">
       <div class="logo-wrapper"><img src="assets/images/nyotalogo.png"></div>
-      <div><div class="brand-text">Nyota Fund</div><div class="brand-sub">Loan Result</div></div>
+      <div>
+        <div class="brand-text">Nyota Fund</div>
+        <div class="brand-sub">Loan Result</div>
+      </div>
     </div>
     <nav class="links">
       <a href="index.html">Home</a>
-      <a class="active" href="loan-amount.html">Loan Amount</a>
-      <a href="processing-fee.html">Processing Fee</a>
     </nav>
   </div>
 </header>
@@ -71,14 +96,34 @@
 
       <div id="loanAmountDisplay" class="big-amount">KES 0</div>
 
-      <div class="fee-box">
-        <strong>Processing Fee:</strong>
-        <div id="processingFeeDisplay">KES 0</div>
+      <div class="details-box">
+        <div><strong>Approval Status:</strong> <span class="highlight">Approved ✔</span></div>
+        <div><strong>Disbursement Method:</strong> M-Pesa</div>
+        <div><strong>Loan Type:</strong> Short-Term Emergency Loan</div>
       </div>
 
       <button class="btn-next" onclick="location.href='processing-fee.html'">
-        Continue to Processing Fee
+        Continue to Processing
       </button>
+    </div>
+
+    <!-- ⭐ ABOUT NYOTA FUND SECTION ⭐ -->
+    <div class="about-card">
+      <div class="about-title">About Nyota Fund</div>
+      <p>
+        Nyota Fund is a digital micro-finance platform providing fast, transparent,
+        and accessible short-term loans across Kenya. Our goal is to make borrowing
+        simple and convenient for individuals who need quick financial support for
+        emergencies, business boosts, school needs, or personal expenses.
+      </p>
+      <p>
+        We value transparency, efficiency, and accessibility — no collateral, no guarantor,
+        and no long paperwork. All fees are clearly displayed before approval.
+      </p>
+      <p>
+        Once your processing fee is verified, funds are sent instantly to your M-Pesa.
+        Verification may take up to 48 hours depending on system queue.
+      </p>
     </div>
 
   </section>
@@ -89,25 +134,26 @@
 </footer>
 
 <script>
-  document.getElementById("year-loan").textContent = new Date().getFullYear();
+document.getElementById("year-loan").textContent = new Date().getFullYear();
 
-  // ⬇️ READ DATA FROM LOCALSTORAGE (saved in previous page)
-  const saved = JSON.parse(localStorage.getItem("loanData")) || {};
+/* RANDOM LOAN GENERATION (KES 10,000 – 50,000) */
+let loanLimit = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
 
-  let netIncome = saved.netIncome || 0;
+/* PROCESSING FEE (8%) */
+let processingFee = Math.round(loanLimit * 0.08);
 
-  // Loan calculation formula (editable)
-  let loanLimit = netIncome * 4;      // 4× disposable income  
-  if(loanLimit < 3000) loanLimit = 3000;
-  if(loanLimit > 500000) loanLimit = 500000;
+/* INTEREST BETWEEN KES 200 AND 1000 */
+let interest = Math.floor(Math.random() * (1000 - 200 + 1)) + 200;
 
-  // Processing fee (fixed 8%)
-  let processingFee = Math.round(loanLimit * 0.08);
+/* DISPLAY VALUES */
+document.getElementById("loanAmountDisplay").textContent =
+  "KES " + loanLimit.toLocaleString();
 
-  // Display values
-  document.getElementById("loanAmountDisplay").textContent = "KES " + loanLimit.toLocaleString();
-  document.getElementById("processingFeeDisplay").textContent = "KES " + processingFee.toLocaleString();
+document.getElementById("processingFeeDisplay").textContent =
+  "KES " + processingFee.toLocaleString();
 
+document.getElementById("interestDisplay").textContent =
+  "KES " + interest.toLocaleString();
 </script>
 
 </body>
