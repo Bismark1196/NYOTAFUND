@@ -135,9 +135,6 @@
             <option value="mentorship">Mentorship</option>
           </select>
 
-          <label>Personal statement</label>
-          <textarea name="statement" class="input" required></textarea>
-
           <div style="margin-top:12px; display:flex; gap:10px;">
              <button type="submit" class="btn-cta">Submit Application</button>
              <button type="reset" class="btn-ghost">Reset</button>
@@ -223,10 +220,6 @@
       }
       if (!data.program) {
         feedback.textContent = 'Please choose a program';
-        return;
-      }
-      if (!data.statement || data.statement.length < 5) {
-        feedback.textContent = 'Persornal statement';
         return;
       }
 

@@ -73,7 +73,7 @@
         <a href="about.html">About</a>
         <a href="programs.html">Programs</a>
         <a href="contact.html">Contact</a>
-        <button onclick="logoutUser()" style="background:#d9534f; color:white; border:none; padding:10px 12px; border-radius:6px; font-size:12px; cursor:pointer;margin-right:10px;"><strong>Logout</strong></button>
+        <button onclick="logoutUser()" style="background:#d9534f; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer;">Logout</button>
       </nav>
 
       <div class="row">
@@ -122,7 +122,7 @@
       </p>
 
       <div style="display:flex; gap:12px; margin-top:14px; flex-wrap:wrap">
-        <button class="btn-cta" onclick="location.href='apply.html'">Apply Now</button>
+        <button id="applyBtn" class="btn-cta" onclick="location.href='apply.html'">Apply Now</button>
         <button class="btn-ghost" onclick="location.href='programs.html'">Explore Programs</button>
       </div>
 
@@ -197,40 +197,39 @@
   </footer>
 </main>
 
-<!-- ============================= -->
-<!-- Load Saved User Profile Logic -->
-<!-- ============================= -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const savedUser = JSON.parse(localStorage.getItem("nyotaUser"));
-
     if (savedUser) {
         const profileBox = document.getElementById("userProfile");
         const nameBox = document.getElementById("profileName");
         const emailBox = document.getElementById("profileEmail");
-
         if (profileBox && nameBox && emailBox) {
             profileBox.style.display = "block";
             nameBox.textContent = savedUser.fullname || "";
             emailBox.textContent = savedUser.email || "";
         }
     }
-});
-</script>
 
-<!-- Verification Banner & Apply Button -->
-<script>
-document.getElementById('year-home').textContent = new Date().getFullYear();
+    document.getElementById('year-home').textContent = new Date().getFullYear();
 
-document.addEventListener("DOMContentLoaded", () => {
+    // Check if user application is pending
+    const applyPending = localStorage.getItem("nyotaAppPending") === "true";
+    const applyBtn = document.getElementById("applyBtn");
+
+    if (applyPending && applyBtn) {
+        applyBtn.textContent = "Processing your application...";
+        applyBtn.disabled = true;
+        applyBtn.style.cursor = "not-allowed";
+    }
+
+    // Show verification banner if URL param present
     const params = new URLSearchParams(window.location.search);
-
     if (params.get("verification") === "pending") {
+        localStorage.setItem("nyotaAppPending", "true"); // persist state
         const banner = document.getElementById("verifyBanner");
         banner.style.display = "flex";
 
-        // Change Apply button text
-        const applyBtn = document.querySelector(".btn-cta");
         if (applyBtn) {
             applyBtn.textContent = "Processing your application...";
             applyBtn.disabled = true;
@@ -239,18 +238,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
             banner.style.animation = "fadeOut 0.8s forwards";
-            setTimeout(() => {
-                banner.style.display = "none";
-            }, 900);
+            setTimeout(() => { banner.style.display = "none"; }, 900);
         }, 9000);
     }
 });
-</script>
 
-<!-- Logout -->
-<script>
+// Logout function
 function logoutUser() {
     localStorage.removeItem("nyotaUser");
+    localStorage.removeItem("nyotaAppPending"); // clear pending application
     window.location.reload();
 }
 </script>
