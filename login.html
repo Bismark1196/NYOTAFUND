@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — Nyota Fund</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f0f3f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 10px;
+    }
+
+    .login-container {
+      background: #fff;
+      width: 100%;
+      max-width: 360px;
+      padding: 22px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 10px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #e8eee9;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #2e7d32;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #2e7d32;
+      outline: none;
+      box-shadow: 0 0 4px rgba(46,125,50,0.3);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 11px;
+      border: none;
+      background: #2e7d32;
+      color: #fff;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .login-btn:hover {
+      background: #256529;
+    }
+
+    .footer-links {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.85rem;
+    }
+
+    .footer-links a {
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(15px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <div class="logo">
+      <img src="/assets/images/nyotalogo.png" alt="Nyota Fund Logo">
+    </div>
+
+    <h2 class="title">Login to Nyota Fund</h2>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label>Email Address</label>
+        <input id="loginEmail" type="email" placeholder="Enter your email" required>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input id="loginPassword" type="password" placeholder="Enter your password" required>
+      </div>
+
+      <button class="login-btn">Login</button>
+    </form>
+
+    <div class="footer-links">
+      <p><a href="forgot.html">Forgot Password?</a></p>
+      <p>Don't have an account? <a href="apply.html">Apply Now</a></p>
+    </div>
+
+  </div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value;
+
+    // Check if user already saved from apply.html
+    const existing = JSON.parse(localStorage.getItem("nyotaUser")) || {};
+
+    const userData = {
+        fullname: existing.fullname || "",  // keep existing name
+        email: email                        // update email from login
+    };
+
+    // Save
+    localStorage.setItem("nyotaUser", JSON.stringify(userData));
+
+    // Redirect to home
+    window.location.href = "index.html";
+});
+</script>
+
+</body>
+</html>

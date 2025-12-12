@@ -73,7 +73,7 @@
       </nav>
 
       <div class="row">
-        <button class="btn-ghost" onclick="location.href='contact.html#donate'">Donate</button>
+         <button class="btn-cta" onclick="location.href='login.html'">Login</button>
         <button class="menu-btn">☰</button>
       </div>
     </div>
@@ -177,7 +177,6 @@
 
   cancelBtn.onclick = () => popup.style.display = "none";
 
-  // After saving the application → show popup
   function showConfirmationPopup(data) {
     popupContent.innerHTML = `
       <p><strong>Name:</strong> ${data.fullname}</p>
@@ -197,12 +196,20 @@
     };
   }
 
-  // Application logic (clean version without file upload)
   document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('year-apply').textContent = new Date().getFullYear();
 
     const form = document.getElementById('applyForm');
     const feedback = document.getElementById('applyFeedback');
+
+    // --- Restore saved name + email ---
+    const savedUser = JSON.parse(localStorage.getItem("nyotaUser") || "{}");
+    if (savedUser.email) {
+      document.querySelector('input[name="email"]').value = savedUser.email;
+    }
+    if (savedUser.fullname) {
+      document.querySelector('input[name="fullname"]').value = savedUser.fullname;
+    }
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -218,12 +225,19 @@
         feedback.textContent = 'Please choose a program';
         return;
       }
-      if (!data.statement || data.statement.length < 50) {
-        feedback.textContent = 'Personal statement must be at least 50 characters';
+      if (!data.statement || data.statement.length < 5) {
+        feedback.textContent = 'Persornal statement';
         return;
       }
 
-      // Save application
+      // --- Save user permanently (name + email) ---
+      const userData = {
+        fullname: data.fullname,
+        email: data.email
+      };
+      localStorage.setItem("nyotaUser", JSON.stringify(userData));
+
+      // Save application history
       const arr = JSON.parse(localStorage.getItem('nyota_applications') || '[]');
       arr.unshift({ ...data, submittedAt: new Date().toISOString() });
       localStorage.setItem('nyota_applications', JSON.stringify(arr));

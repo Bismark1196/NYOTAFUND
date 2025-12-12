@@ -5,9 +5,58 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Nyota Fund — Home</title>
   <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    /* Verification Banner */
+    .verify-banner {
+      display: none;
+      background: #0A84FF;
+      color: white;
+      padding: 14px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 500;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 2000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      animation: fadeIn 0.7s ease forwards;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .verify-spinner {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+    @media (max-width: 480px) {
+      .verify-banner { font-size: 14px; padding: 12px; }
+      .verify-spinner { width: 18px; height: 18px; }
+    }
+  </style>
 </head>
+
 <body>
-  <header class="header">
+
+<!-- Verification Banner -->
+<div id="verifyBanner" class="verify-banner">
+  <div class="verify-spinner"></div>
+  <span>Verification in progress — our team is reviewing your payment.</span>
+</div>
+
+<header class="header">
     <div class="navbar">
       <div class="brand">
         <div class="logo-wrapper" aria-hidden="true">
@@ -27,101 +76,172 @@
       </nav>
 
       <div class="row">
-        <button class="btn-ghost" onclick="location.href='contact.html#donate'">Donate</button>
+        <!-- User Profile (Auto-Filled) -->
+    <div id="userProfile" class="user-profile" style="
+        display:none;
+        background:#f8f9ff;
+        padding:10px 16px;
+        margin-top:10px;
+        border-radius:10px;
+        box-shadow:0 3px 8px rgba(0,0,0,0.08);
+    ">
+      <div style="display:flex; align-items:center; gap:12px;">
+          <img src="assets/images/nyotalogo.png"
+            style="width:45px; height:45px; border-radius:50%; object-fit:contain; background:white;">
+          <div>
+            <div id="profileName" style="font-weight:600; font-size:16px"></div>
+            <div id="profileEmail" style="font-size:13px; opacity:0.8"></div>
+          </div>
+      </div>
+    </div>
         <button class="menu-btn" aria-label="Open menu">☰</button>
       </div>
     </div>
-  </header>
+</header>
 
-  <!-- mobile panel -->
-  <div class="mobile-panel" aria-hidden="true">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="programs.html">Programs</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </div>
+<div class="mobile-panel" aria-hidden="true">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="programs.html">Programs</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</div>
 
-  <main>
-    <section class="hero container" aria-labelledby="hero-title">
-      <div class="hero-card">
-        <div class="eyebrow">Supporting Education • Entrepreneurship • Leadership</div>
-        <h1 id="hero-title">Empowering Kenya’s youth with opportunity and skills</h1>
-        <p class="lead">Nyota Fund provides scholarships, microgrants and mentorship to talented youth and community entrepreneurs. We partner with local leaders and follow rigorous transparency standards to deliver measurable impact.</p>
+<main>
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero-card">
+      <div class="eyebrow">Supporting Education • Entrepreneurship • Leadership</div>
+      <h1 id="hero-title">Empowering Kenya’s youth with opportunity and skills</h1>
+      <p class="lead">
+        Nyota Fund provides scholarships, microgrants and mentorship to talented youth and community entrepreneurs.
+      </p>
 
-        <div style="display:flex; gap:12px; margin-top:14px; flex-wrap:wrap">
-          <button class="btn-cta" onclick="location.href='apply.html'">Apply Now</button>
-          <button class="btn-ghost" onclick="location.href='programs.html'">Explore Programs</button>
-        </div>
-
-        <div style="margin-top:18px; display:flex; gap:14px; align-items:center">
-          <div style="width:64px; height:64px; border-radius:10px; overflow:hidden; background:#fff; box-shadow:0 8px 18px rgba(10,20,10,0.04)">
-            <img src="assets/images/nyotalogo.png" alt="" style="width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply;">
-          </div>
-          <div>
-            <strong>Founded 2018</strong>
-            <div class="small">Community-led selection • Transparent reporting • Real impact</div>
-          </div>
-        </div>
+      <div style="display:flex; gap:12px; margin-top:14px; flex-wrap:wrap">
+        <button class="btn-cta" onclick="location.href='apply.html'">Apply Now</button>
+        <button class="btn-ghost" onclick="location.href='programs.html'">Explore Programs</button>
       </div>
 
-      <aside class="hero-aside">
-        <h3 style="margin-top:0">Quick Impact</h3>
-        <ul class="small" style="margin:12px 0 0 16px">
-          <li><strong>120+</strong> scholarships awarded</li>
-          <li><strong>230+</strong> microgrants</li>
-          <li><strong>15,000+</strong> people reached</li>
-        </ul>
-
-        <div style="margin-top:12px">
-          <a href="programs.html" class="small">Read latest story →</a>
+      <div style="margin-top:18px; display:flex; gap:14px; align-items:center">
+        <div style="width:64px; height:64px; border-radius:10px; overflow:hidden; background:#fff; box-shadow:0 8px 18px rgba(10,20,10,0.04)">
+          <img src="assets/images/nyotalogo.png" alt="" style="width:100%; height:100%; object-fit:contain;">
         </div>
-      </aside>
-    </section>
-
-    <section class="section container">
-      <div class="section-title">
-        <h2 style="margin:0">Programs</h2>
-        <a class="small" href="programs.html">See all programs</a>
-      </div>
-      <div class="grid-3">
-        <div class="card">
-          <h3>Scholarships</h3>
-          <p class="small">Need & merit-based scholarships for secondary and tertiary education, covering fees and learning materials.</p>
-        </div>
-        <div class="card">
-          <h3>Microgrants</h3>
-          <p class="small">Seed capital and technical support for youth-led enterprises and local community projects.</p>
-        </div>
-        <div class="card">
-          <h3>Mentorship & Training</h3>
-          <p class="small">Business clinics, technical workshops and one-on-one mentorship from sector professionals.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section container">
-      <div class="section-title"><h2 style="margin:0">Latest Impact</h2><span class="small">Annual highlights</span></div>
-      <div class="stats">
-        <div class="stat"><div class="num" data-target="120">120</div><div class="small">Scholarships</div></div>
-        <div class="stat"><div class="num" data-target="230">230</div><div class="small">Microgrants</div></div>
-        <div class="stat"><div class="num" data-target="15000">15000</div><div class="small">People reached</div></div>
-      </div>
-    </section>
-
-    <footer>
-      <div class="container">
         <div>
-          <strong>Nyota Fund</strong>
-          <div class="small">Kuza, Imarisha, Endeleza Vijana</div>
+          <strong>Founded 2018</strong>
+          <div class="small">Community-led selection • Transparent reporting • Real impact</div>
         </div>
-        <div class="small">© Nyota Fund <span id="year-home"></span></div>
       </div>
-    </footer>
-  </main>
+    </div>
 
-  <script src="assets/js/script.js"></script>
-  <script>document.getElementById('year-home').textContent = new Date().getFullYear();</script>
+    <aside class="hero-aside">
+      <h3 style="margin-top:0">Quick Impact</h3>
+      <ul class="small" style="margin:12px 0 0 16px">
+        <li><strong>120+</strong> scholarships awarded</li>
+        <li><strong>230+</strong> microgrants</li>
+        <li><strong>15,000+</strong> people reached</li>
+      </ul>
+
+      <div style="margin-top:12px">
+        <a href="programs.html" class="small">Read latest story →</a>
+      </div>
+    </aside>
+  </section>
+
+  <section class="section container">
+    <div class="section-title">
+      <h2 style="margin:0">Programs</h2>
+      <a class="small" href="programs.html">See all programs</a>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3>Scholarships</h3>
+        <p class="small">Need & merit-based support covering fees and learning materials.</p>
+      </div>
+      <div class="card">
+        <h3>Microgrants</h3>
+        <p class="small">Seed capital & technical support for youth-led enterprises.</p>
+      </div>
+      <div class="card">
+        <h3>Mentorship & Training</h3>
+        <p class="small">Business clinics and professional mentorship sessions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="section-title">
+      <h2 style="margin:0">Latest Impact</h2>
+      <span class="small">Annual highlights</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num" data-target="120">120</div><div class="small">Scholarships</div></div>
+      <div class="stat"><div class="num" data-target="230">230</div><div class="small">Microgrants</div></div>
+      <div class="stat"><div class="num" data-target="15000">15000</div><div class="small">People reached</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div>
+        <strong>Nyota Fund</strong>
+        <div class="small">Kuza, Imarisha, Endeleza Vijana</div>
+      </div>
+      <div class="small">© Nyota Fund <span id="year-home"></span></div>
+    </div>
+  </footer>
+</main>
+
+<!-- ============================= -->
+<!-- Load Saved User Profile Logic -->
+<!-- ============================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const savedUser = JSON.parse(localStorage.getItem("nyotaUser"));
+
+    if (savedUser) {
+        const profileBox = document.getElementById("userProfile");
+        const nameBox = document.getElementById("profileName");
+        const emailBox = document.getElementById("profileEmail");
+
+        if (profileBox && nameBox && emailBox) {
+            profileBox.style.display = "block";
+            nameBox.textContent = savedUser.fullname || "";
+            emailBox.textContent = savedUser.email || "";
+        }
+    }
+});
+</script>
+
+<!-- Verification Banner -->
+<script>
+document.getElementById('year-home').textContent = new Date().getFullYear();
+
+const params = new URLSearchParams(window.location.search);
+
+if (params.get("verification") === "pending") {
+    const banner = document.getElementById("verifyBanner");
+    banner.style.display = "flex";
+
+    setTimeout(() => {
+        banner.style.animation = "fadeOut 0.8s forwards";
+        setTimeout(() => {
+            banner.style.display = "none";
+        }, 900);
+    }, 9000);
+}
+</script>
+
+<!-- Logout -->
+<script>
+function logoutUser() {
+    localStorage.removeItem("nyotaUser");
+    window.location.reload();
+}
+</script>
+
+<script src="assets/js/script.js"></script>
+
 </body>
 </html>
