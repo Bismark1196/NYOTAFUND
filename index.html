@@ -73,27 +73,30 @@
         <a href="about.html">About</a>
         <a href="programs.html">Programs</a>
         <a href="contact.html">Contact</a>
+        <button onclick="logoutUser()" style="background:#d9534f; color:white; border:none; padding:10px 12px; border-radius:6px; font-size:12px; cursor:pointer;margin-right:10px;"><strong>Logout</strong></button>
       </nav>
 
       <div class="row">
-        <!-- User Profile (Auto-Filled) -->
-    <div id="userProfile" class="user-profile" style="
-        display:none;
-        background:#f8f9ff;
-        padding:10px 16px;
-        margin-top:10px;
-        border-radius:10px;
-        box-shadow:0 3px 8px rgba(0,0,0,0.08);
-    ">
+       <!-- User Profile (Auto-Filled) -->
+<div id="userProfile" class="user-profile" style="
+    display:none;
+    background:#f8f9ff;
+    padding:10px 18px;
+    margin-top:10px;
+    border-radius:10px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.137);
+">
+  <div style="display:flex; align-items:center; gap:12px; justify-content:space-between;">
+      <!-- Avatar + Info -->
       <div style="display:flex; align-items:center; gap:12px;">
-          <img src="assets/images/nyotalogo.png"
-            style="width:45px; height:45px; border-radius:50%; object-fit:contain; background:white;">
           <div>
             <div id="profileName" style="font-weight:600; font-size:16px"></div>
             <div id="profileEmail" style="font-size:13px; opacity:0.8"></div>
           </div>
       </div>
-    </div>
+  </div>
+</div>
+
         <button class="menu-btn" aria-label="Open menu">☰</button>
       </div>
     </div>
@@ -105,6 +108,7 @@
     <a href="about.html">About</a>
     <a href="programs.html">Programs</a>
     <a href="contact.html">Contact</a>
+    <button onclick="logoutUser()" style="background:#d9534f; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer;">Logout</button>
   </nav>
 </div>
 
@@ -214,23 +218,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<!-- Verification Banner -->
+<!-- Verification Banner & Apply Button -->
 <script>
 document.getElementById('year-home').textContent = new Date().getFullYear();
 
-const params = new URLSearchParams(window.location.search);
+document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
 
-if (params.get("verification") === "pending") {
-    const banner = document.getElementById("verifyBanner");
-    banner.style.display = "flex";
+    if (params.get("verification") === "pending") {
+        const banner = document.getElementById("verifyBanner");
+        banner.style.display = "flex";
 
-    setTimeout(() => {
-        banner.style.animation = "fadeOut 0.8s forwards";
+        // Change Apply button text
+        const applyBtn = document.querySelector(".btn-cta");
+        if (applyBtn) {
+            applyBtn.textContent = "Processing your application...";
+            applyBtn.disabled = true;
+            applyBtn.style.cursor = "not-allowed";
+        }
+
         setTimeout(() => {
-            banner.style.display = "none";
-        }, 900);
-    }, 9000);
-}
+            banner.style.animation = "fadeOut 0.8s forwards";
+            setTimeout(() => {
+                banner.style.display = "none";
+            }, 900);
+        }, 9000);
+    }
+});
 </script>
 
 <!-- Logout -->
