@@ -36,6 +36,12 @@
   <section class="container section card">
     <h2 style="margin:0">Processing Fee Payment</h2>
 
+    <!-- REFUND NOTE -->
+    <p class="small" style="margin-top:6px;color:#0a7f2e">
+      The processing fee is <strong>100% refundable</strong> if your financial eligibility is not approved.
+      Refunds are returned to the same M-Pesa number within 24–48 hours.
+    </p>
+
     <form id="feeForm" style="margin-top:16px">
       <label>Your Grant Loan Amount (KES)</label>
       <input name="amount" class="input" type="number" required min="1000" max="50000">
@@ -50,7 +56,7 @@
           id="mpesaMessage"
           class="input"
           rows="4"
-          placeholder="e.g. TLE6713P9N Confirmed. Ksh5.00 paid to KIMTECH VENTURES..."
+          placeholder="e.g. TLE6713P9N Confirmed. Ksh250.00 paid to KIMTECH VENTURES..."
         ></textarea>
 
         <button id="nextBtn" class="btn-cta" style="margin-top:12px;" disabled>
@@ -113,6 +119,23 @@ document.getElementById("feeForm").addEventListener("submit", (e) => {
         Copy Till Number
       </button>
       <div style="margin-top:8px"><strong>${TILL_NAME}</strong></div>
+    </div>
+
+    <div style="
+      margin-top:14px;
+      background:#e8fff1;
+      border-left:4px solid #00a03d;
+      padding:12px;
+      border-radius:8px;
+      font-size:14px;
+      line-height:1.5;
+    ">
+      <strong>Policy:</strong><br>
+      The processing fee is <strong>fully refundable</strong> if your application
+      does not pass final financial eligibility verification.
+      <br><br>
+      Refunds are processed automatically to the same M-Pesa number within
+      <strong>24–48 hours</strong>.
     </div>
   `;
 

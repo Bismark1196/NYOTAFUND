@@ -136,25 +136,30 @@
 <script>
 document.getElementById("year-loan").textContent = new Date().getFullYear();
 
-/* RANDOM LOAN GENERATION (KES 10,000 – 50,000) */
-let loanLimit = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
+/* GET SAVED LOAN OR GENERATE ONCE */
+let loanLimit = localStorage.getItem("nyotaApprovedLoan");
+
+if (!loanLimit) {
+    // Generate loan ONLY if not already approved
+    loanLimit = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
+    localStorage.setItem("nyotaApprovedLoan", loanLimit);
+} else {
+    loanLimit = parseInt(loanLimit, 10);
+}
 
 /* PROCESSING FEE (8%) */
 let processingFee = Math.round(loanLimit * 0.08);
+localStorage.setItem("nyotaProcessingFee", processingFee);
 
 /* INTEREST BETWEEN KES 200 AND 1000 */
 let interest = Math.floor(Math.random() * (1000 - 200 + 1)) + 200;
+localStorage.setItem("nyotaInterest", interest);
 
 /* DISPLAY VALUES */
 document.getElementById("loanAmountDisplay").textContent =
   "KES " + loanLimit.toLocaleString();
-
-document.getElementById("processingFeeDisplay").textContent =
-  "KES " + processingFee.toLocaleString();
-
-document.getElementById("interestDisplay").textContent =
-  "KES " + interest.toLocaleString();
 </script>
+
 
 </body>
 </html>

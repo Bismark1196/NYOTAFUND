@@ -245,9 +245,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Logout function
 function logoutUser() {
+    // Clear stored state
     localStorage.removeItem("nyotaUser");
-    localStorage.removeItem("nyotaAppPending"); // clear pending application
-    window.location.reload();
+    localStorage.removeItem("nyotaAppPending");
+
+    // Remove URL query params (e.g. ?verification=pending)
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+    // Hide profile box
+    const profileBox = document.getElementById("userProfile");
+    if (profileBox) profileBox.style.display = "none";
+
+    // Reset Apply button
+    const applyBtn = document.getElementById("applyBtn");
+    if (applyBtn) {
+        applyBtn.textContent = "Apply Now";
+        applyBtn.disabled = false;
+        applyBtn.style.cursor = "pointer";
+    }
+
+    // Optional: hide verification banner if visible
+    const banner = document.getElementById("verifyBanner");
+    if (banner) banner.style.display = "none";
 }
 </script>
 
