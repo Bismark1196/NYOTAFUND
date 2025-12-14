@@ -9,12 +9,11 @@
 
 <body>
 
-<!-- ERROR POPUP (correctly placed inside body) -->
+<!-- ERROR POPUP -->
 <div id="errorPopup" class="popup-overlay" style="display:none;">
   <div class="popup-card">
     <h3 style="margin:0; color:#b30000;">Verification Failed</h3>
     <p id="errorText" style="margin:10px 0; font-size:15px;"></p>
-
     <button id="errorCloseBtn" class="btn-cta" style="background:#b30000;">Close</button>
   </div>
 </div>
@@ -22,7 +21,9 @@
 <header class="header">
   <div class="navbar container">
     <div class="brand">
-      <div class="logo-wrapper"><img src="assets/images/nyotalogo.png"></div>
+      <div class="logo-wrapper">
+        <img src="assets/images/nyotalogo.png" alt="Nyota Fund">
+      </div>
       <div>
         <div class="brand-text">Nyota Fund</div>
         <div class="brand-sub">Processing Fee</div>
@@ -37,18 +38,24 @@
 
     <form id="feeForm" style="margin-top:16px">
       <label>Your Grant Loan Amount (KES)</label>
-      <input name="amount" class="input" type="number" required min="1000">
+      <input name="amount" class="input" type="number" required min="1000" max="50000">
 
       <button class="btn-cta" style="margin-top:12px">Show Processing Fee</button>
 
       <div id="feeOutput" class="small" style="margin-top:16px"></div>
 
-      <!-- Hidden until fee is shown -->
       <div id="mpesaSection" style="display:none; margin-top:20px;">
         <label>Paste Your M-Pesa Confirmation Message</label>
-        <textarea id="mpesaMessage" class="input" rows="4" placeholder="e.g. TLADS0NHSC Confirmed. Ksh100.00 paid to COLETS SOLUTIONS ..."></textarea>
+        <textarea
+          id="mpesaMessage"
+          class="input"
+          rows="4"
+          placeholder="e.g. TLE6713P9N Confirmed. Ksh5.00 paid to KIMTECH VENTURES..."
+        ></textarea>
 
-        <button id="nextBtn" class="btn-cta" style="margin-top:12px;" disabled>Next</button>
+        <button id="nextBtn" class="btn-cta" style="margin-top:12px;" disabled>
+          Next
+        </button>
       </div>
     </form>
   </section>
@@ -61,12 +68,12 @@
 <script>
 document.getElementById("year-fee").textContent = new Date().getFullYear();
 
-// TILL DETAILS
-const TILL_NUMBER = "5628178";
-const TILL_NAME = "COLETS SOLUTIONS";
-let requiredFee = 250;
+/* ================= CONFIG ================= */
+const TILL_NUMBER = "7177038";
+const TILL_NAME = "KIMTECH VENTURES";
+const REQUIRED_FEE = 250;
 
-// Popup handling
+/* ================= POPUP ================= */
 function showErrorPopup(message) {
   document.getElementById("errorText").textContent = message;
   document.getElementById("errorPopup").style.display = "flex";
@@ -75,7 +82,13 @@ document.getElementById("errorCloseBtn").onclick = () => {
   document.getElementById("errorPopup").style.display = "none";
 };
 
-// FORM: Show fee
+/* ================= COPY ================= */
+function copyTill() {
+  navigator.clipboard.writeText(TILL_NUMBER);
+  alert("Till number copied");
+}
+
+/* ================= SHOW FEE ================= */
 document.getElementById("feeForm").addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -85,88 +98,65 @@ document.getElementById("feeForm").addEventListener("submit", (e) => {
     return;
   }
 
-  requiredFee = 250;
-
-  const output = document.getElementById("feeOutput");
-  output.style.color = "green";
-  output.innerHTML = `
+  document.getElementById("feeOutput").innerHTML = `
     <strong>Loan Amount:</strong> KES ${amount.toLocaleString()}<br>
-    <strong>Processing Fee:</strong> 
-    <span style="color:#0A84FF; font-weight:bold;">KES ${requiredFee}</span><br><br>
+    <strong>Processing Fee:</strong>
+    <span style="color:#0A84FF; font-weight:bold;">KES ${REQUIRED_FEE}</span><br><br>
 
-    <strong>Pay To:</strong><br>
-    <span style="font-size:20px; font-weight:bold; color:#0A84FF;">
-      TILL NUMBER: ${TILL_NUMBER}<br>
-      NAME: ${TILL_NAME}
-    </span><br><br>
-
-    After payment, paste your M-Pesa message below.
+    <div style="background:#f2f6ff;padding:14px;border-radius:10px;text-align:center">
+      <div style="font-size:13px;opacity:.7">TILL NUMBER</div>
+      <div style="font-size:24px;font-weight:bold;color:#0A84FF;user-select:all">
+        ${TILL_NUMBER}
+      </div>
+      <button type="button" onclick="copyTill()" class="btn-cta"
+        style="margin-top:10px;padding:8px 16px;font-size:14px">
+        Copy Till Number
+      </button>
+      <div style="margin-top:8px"><strong>${TILL_NAME}</strong></div>
+    </div>
   `;
 
   document.getElementById("mpesaSection").style.display = "block";
 });
 
-// User typing — disable Next until validated
+/* ================= LIVE ENABLE ================= */
 document.getElementById("mpesaMessage").addEventListener("input", () => {
-  document.getElementById("nextBtn").disabled = true;
+  document.getElementById("nextBtn").disabled =
+    document.getElementById("mpesaMessage").value.trim().length < 10;
 });
 
-// NEXT VALIDATION
+/* ================= NEXT CLICK VALIDATION ================= */
 document.getElementById("nextBtn").addEventListener("click", (e) => {
   e.preventDefault();
 
   const msg = document.getElementById("mpesaMessage").value.trim().toUpperCase();
 
-  // Confirmed
   if (!msg.includes("CONFIRMED")) {
-    showErrorPopup("Your M-Pesa message must include 'Confirmed'.");
+    showErrorPopup("M-Pesa message must contain 'Confirmed'.");
     return;
   }
 
-  // Correct Till Name
-  if (!msg.includes(TILL_NAME.toUpperCase())) {
-    showErrorPopup("The message must contain the correct Till Name: " + TILL_NAME);
+  if (!msg.includes(TILL_NAME)) {
+    showErrorPopup("Till name does not match: " + TILL_NAME);
     return;
   }
 
-  // Extract amount paid
-  const amountRegex = /KSH ?(\d+(\.\d+)?)/;
-  const match = msg.match(amountRegex);
-
-  if (!match) {
-    showErrorPopup("Your M-Pesa message is missing the payment amount.");
+  const amountMatch = msg.match(/KSH ?(\d+(\.\d+)?)/);
+  if (!amountMatch) {
+    showErrorPopup("Payment amount not found in message.");
     return;
   }
 
-  const paidAmount = Number(match[1]);
-
-  if (paidAmount !== requiredFee) {
+  const paid = Number(amountMatch[1]);
+  if (paid !== REQUIRED_FEE) {
     showErrorPopup(
-      `The amount paid (Ksh ${paidAmount}) does not match the required fee (Ksh ${requiredFee}).`
+      `Incorrect amount paid. Required: Ksh ${REQUIRED_FEE}, Paid: Ksh ${paid}`
     );
     return;
   }
 
-  // Everything is correct → Enable next
+  // ✅ ALL GOOD
   window.location.href = "processing-details.html";
-});
-
-// Enable validation only after typing (live validation)
-document.getElementById("mpesaMessage").addEventListener("input", () => {
-  const msg = document.getElementById("mpesaMessage").value.trim().toUpperCase();
-  const hasConfirmed = msg.includes("CONFIRMED");
-  const hasName = msg.includes(TILL_NAME.toUpperCase());
-  const amountMatch = msg.match(/KSH ?(\d+(\.\d+)?)/);
-
-  if (hasConfirmed && hasName && amountMatch) {
-    const paid = Number(amountMatch[1]);
-    if (paid === requiredFee) {
-      document.getElementById("nextBtn").disabled = false;
-      return;
-    }
-  }
-
-  document.getElementById("nextBtn").disabled = true;
 });
 </script>
 
